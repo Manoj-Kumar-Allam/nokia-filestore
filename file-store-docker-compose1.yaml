@@ -1,0 +1,24 @@
+version: '3'
+services:
+  discovery-server:
+    image: amanoj1308/nokia-filestore-esp-discovery-server:v1.1.0
+    ports:
+      - 8761:8761
+  zuul-server:
+    image: amanoj1308/nokia-filestore-esp-zuul-server:v1.1.0
+    environment:
+      - JAVA_OPTS= 
+        -DEUREKA_SERVER=http://discovery-server:8761/eureka
+    ports:
+      - 8765:8765
+    depends_on:
+      - discovery-server
+    restart: on-failure
+  filestore-library:
+    image: amanoj1308/nokia-filestore-esp-filestore-library:v1.1.0
+    environment:
+      - JAVA_OPTS= 
+        -DEUREKA_SERVER=http://discovery-server:8761/eureka
+    depends_on:
+      - discovery-server
+    restart: on-failure

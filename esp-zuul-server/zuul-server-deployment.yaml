@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: zuul-server-deployment
+  labels:
+    app: esp-zuul-server
+spec:
+  replicas: 1
+  selector: 
+    matchLabels:
+      app: esp-zuul-server
+  template:
+    metadata:
+      labels:
+        app: esp-zuul-server
+        tier: web
+    spec:
+      containers:
+      - name: esp-zuul-server
+        image: amanoj1308/nokia-filestore-esp-zuul-server:v1.1.1
+        ports:
+        - containerPort: 8765
+        env:
+        - name: EUREKA_SERVER
+          valueFrom: 
+            configMapKeyRef:
+              name: discovery-server-configmap
+              key: eureka_server_url
+        

@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: filestore-library-deployment
+  labels:
+    app: nokia-filestore-service
+spec:
+  replicas: 1
+  selector: 
+    matchLabels:
+      app: nokia-filestore-service
+  template:
+    metadata:
+      labels:
+        app: nokia-filestore-service
+        tier: web
+    spec:
+      containers:
+      - name: nokia-filestore-service
+        image: amanoj1308/nokia-filestore-esp-filestore-library:v1.1.0
+        ports:
+        - containerPort: 9296
+        env:
+        - name: EUREKA_SERVER
+          valueFrom: 
+            configMapKeyRef:
+              name: discovery-server-configmap
+              key: eureka_server_url
+        

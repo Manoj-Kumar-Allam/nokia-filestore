@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: discovery-server-deployment
+  labels:
+    app: esp-discovery-server
+spec:
+  replicas: 1
+  selector: 
+    matchLabels:
+      app: esp-discovery-server
+  template:
+    metadata:
+      labels:
+        app: esp-discovery-server
+        tier: web
+    spec:
+      containers:
+      - name: esp-discovery-server
+        image: amanoj1308/nokia-filestore-esp-discovery-server:v1.1.0
+        ports:
+        - containerPort: 8761

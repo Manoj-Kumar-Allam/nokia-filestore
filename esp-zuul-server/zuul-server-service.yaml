@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: zuul-server-service
+  labels:
+    app: zuul-server-service
+spec: 
+  selector:
+    app: esp-zuul-server
+  type: LoadBalancer
+  ports:
+    - protocol: TCP
+      port: 8765
+      targetPort: 8765
+      nodePort: 30001
